@@ -180,6 +180,7 @@ target_include_directories(libaapt2_shared PRIVATE ${INCLUDES})
 target_compile_options(libaapt2_shared PRIVATE ${COMPILE_FLAGS})
 target_link_libraries(libaapt2_shared
     libandroidfw
+    libincfsmap
     libpackagelistparser
     libutils
     libcutils
