@@ -49,8 +49,9 @@ cmake -GNinja \
   -DPNG_SHARED=OFF \
   -DZLIB_USE_STATIC_LIBS=ON
 
-# Build the binary
-ninja -C build aapt2
+# Build the binary and shared library
+ninja -C build aapt2 libaapt2_shared
 
 # Remove debug symbol
 "$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-unneeded  "build/bin/aapt2-$architecture"
+"$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip" --strip-unneeded  "build/bin/libaapt2-$architecture.so"

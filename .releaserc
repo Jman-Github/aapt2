@@ -36,7 +36,10 @@
         successComment: false,
         assets: [
           {
-            "path": "build/bin/aapt-*"
+            "path": "build/bin/aapt2-*"
+          },
+          {
+            "path": "build/bin/libaapt2-*.so"
           }
         ]
       }

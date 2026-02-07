@@ -85,8 +85,7 @@ set(TOOL_SOURCE
     ${SRC}/base/tools/aapt2/cmd/Util.cpp
     )
 
-# Build the host static library: aapt2
-add_library(libaapt2 STATIC
+set(AAPT2_LIB_SOURCE
     ${SRC}/base/tools/aapt2/compile/IdAssigner.cpp
     ${SRC}/base/tools/aapt2/compile/InlineXmlFormatParser.cpp
     ${SRC}/base/tools/aapt2/compile/PseudolocaleGenerator.cpp
@@ -163,8 +162,43 @@ add_library(libaapt2 STATIC
     ${AAPT2_PROTO_HDRS}
     )
 
+# Build the core static library used by the aapt2 executable.
+add_library(libaapt2 STATIC
+    ${AAPT2_LIB_SOURCE}
+    )
+
 target_include_directories(libaapt2 PRIVATE ${INCLUDES})
 target_compile_options(libaapt2 PRIVATE ${COMPILE_FLAGS})
+
+# Build shared libaapt2 output for Android consumers.
+add_library(libaapt2_shared SHARED
+    ${AAPT2_LIB_SOURCE}
+    )
+
+target_include_directories(libaapt2_shared PRIVATE ${INCLUDES})
+target_compile_options(libaapt2_shared PRIVATE ${COMPILE_FLAGS})
+target_link_libraries(libaapt2_shared
+    libandroidfw
+    libincfs
+    libselinux
+    libsepol
+    libpackagelistparser
+    libutils
+    libcutils
+    libziparchive
+    libbase
+    libbuildversion
+    liblog
+    libprotoc
+    libprotobuf
+    expat
+    crypto
+    ssl
+    pcre2-8
+    png_static
+    c++_static
+    dl
+    )
 
 # Build the executable file aapt2.
 add_executable(aapt2
@@ -200,3 +234,7 @@ target_link_libraries(aapt2
     )
 
 set_target_properties(aapt2 PROPERTIES OUTPUT_NAME "aapt2-${CMAKE_ANDROID_ARCH_ABI}")
+set_target_properties(libaapt2_shared PROPERTIES
+    OUTPUT_NAME "aapt2-${CMAKE_ANDROID_ARCH_ABI}"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    )

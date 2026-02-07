@@ -45,7 +45,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: aapt2-${{ matrix.target_arch }}
-          path: ${{ github.workspace }}/build/bin/aapt2-*
+          path: |
+            ${{ github.workspace }}/build/bin/aapt2-*
+            ${{ github.workspace }}/build/bin/libaapt2-*.so
           if-no-files-found: error
 
   release:
@@ -83,13 +85,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-          fingerprint: ${{ vars.GPG_FINGERPRINT }}
 
       - name: Release
         env:

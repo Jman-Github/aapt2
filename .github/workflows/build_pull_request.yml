@@ -44,5 +44,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: aapt2-${{ matrix.target_arch }}
-          path: ${{ github.workspace }}/build/bin/aapt2-*
+          path: |
+            ${{ github.workspace }}/build/bin/aapt2-*
+            ${{ github.workspace }}/build/bin/libaapt2-*.so
           if-no-files-found: error
