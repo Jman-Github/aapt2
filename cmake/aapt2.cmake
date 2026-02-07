@@ -173,6 +173,7 @@ target_compile_options(libaapt2 PRIVATE ${COMPILE_FLAGS})
 # Build shared libaapt2 output for Android consumers.
 add_library(libaapt2_shared SHARED
     ${AAPT2_LIB_SOURCE}
+    ${SRC}/base/tools/aapt2/cmd/Util.cpp
     )
 
 target_include_directories(libaapt2_shared PRIVATE ${INCLUDES})
@@ -180,8 +181,6 @@ target_compile_options(libaapt2_shared PRIVATE ${COMPILE_FLAGS})
 target_link_libraries(libaapt2_shared
     libandroidfw
     libincfs
-    libselinux
-    libsepol
     libpackagelistparser
     libutils
     libcutils
